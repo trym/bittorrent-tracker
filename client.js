@@ -54,6 +54,7 @@ function Client (peerId, port, torrent, opts) {
   self._rtcConfig = opts.rtcConfig
   self._wrtc = opts.wrtc
   self._userAgent = opts.userAgent
+  self._statsForAnnounce = opts.statsForAnnounce
 
   debug('new client %s', self._infoHashHex)
 
@@ -263,8 +264,10 @@ Client.prototype._defaultAnnounceOpts = function (opts) {
 
   if (opts.numwant == null) opts.numwant = common.DEFAULT_ANNOUNCE_PEERS
 
-  if (opts.uploaded == null) opts.uploaded = 0
-  if (opts.downloaded == null) opts.downloaded = 0
+  var providedStats = self._statsForAnnounce ? self._statsForAnnounce() : {}
+
+  if (opts.uploaded == null) opts.uploaded = providedStats.uploaded || 0
+  if (opts.downloaded == null) opts.downloaded = providedStats.downloaded || 0
 
   if (opts.left == null && self.torrentLength != null) {
     opts.left = self.torrentLength - opts.downloaded
