@@ -53,6 +53,7 @@ function Client (peerId, port, torrent, opts) {
 
   self._rtcConfig = opts.rtcConfig
   self._wrtc = opts.wrtc
+  self._userAgent = opts.userAgent
 
   debug('new client %s', self._infoHashHex)
 
